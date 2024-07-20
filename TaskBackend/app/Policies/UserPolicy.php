@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -28,15 +29,15 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return ($user->is_admin === 1);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user, Task $task): bool
     {
-        //
+        return ($user->id === $task->user_id || $user->is_admin);
     }
 
     /**

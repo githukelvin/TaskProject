@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/email/send-verification', [EmailVerificationController::class, 'sendVerificationEmail'])
         ->middleware(['throttle:6,1'])
         ->name('verification.send');
+});
+Route::middleware(['auth:sanctum','verified'])->group(function () {
+    Route::post('/createtask', [TaskController::class,'store']);
+    Route::get('/tasks', [TaskController::class,'index']);
 });

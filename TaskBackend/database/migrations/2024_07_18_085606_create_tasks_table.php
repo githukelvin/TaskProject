@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('creator')->nullable()->constrained('users');
             $table->foreignId('team_id')->nullable()->constrained('teams');
             $table->string('title');
             $table->text('description');
-            $table->string('estimated-effort');
+            $table->string('estimated_effort');
             $table->string('priority');
-            $table->json('labels');
-            $table->date('due-date');
-            $table->string('status');
+            $table->string('labels');
+            $table->date('due_date');
+            $table->string('status')->default('inPending');
             $table->timestamps();
         });
     }
