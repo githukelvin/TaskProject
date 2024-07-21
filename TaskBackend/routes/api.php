@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum','verified'])->group(function () {
     Route::post('/createtask', [TaskController::class,'store']);
     Route::get('/tasks', [TaskController::class,'index']);
+    Route::get('/teams', [TeamController::class,'index']);
+    Route::put('/update-status/{id}', [TaskController::class,'update']);
+    Route::put('/approve/{id}', [TaskController::class,'edit']);
+    Route::post('/addMembers/{id}',[TeamController::class,'addTeamMembers']);
+    Route::post('/create_team',[TeamController::class,'store']);
+    Route::post('/tasks/{taskId}/assign', [TaskController::class, 'assignAndNotify']);
+    Route::get('/tasks/{id}',[TaskController::class,'singleTask']);
 });

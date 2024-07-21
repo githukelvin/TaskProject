@@ -27,8 +27,8 @@
                             </tr>
                             <tr>
                                 <td style="padding: 10px; background-color: #f8f8f8; font-weight: bold;">Created by:</td>
-                                <td style="padding: 10px;">Kelvin Githu</td>
-{{--                                <td style="padding: 10px;">{{ $task->user->name }}</td>--}}
+{{--                                <td style="padding: 10px;">Kelvin Githu</td>--}}
+                                <td style="padding: 10px;">{{ $task->user->name }}</td>
                             </tr>
                         </table>
 

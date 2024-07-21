@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
+use function Termwind\renderUsing;
 
 class TeamController extends Controller
 {
@@ -29,11 +34,13 @@ class TeamController extends Controller
     {
         try {
             $credentials = $request->validate([
-                'team_name' => ['required'],
-                'user_id ' => ['required'],
+                'team_name' => ['required',Rule::unique('teams')],
+                'description' => ['required','string'],
             ]);
 
-            $team = Team::create($credentials);
+            $team = Team::create(array_merge($credentials, [
+                'user_id' => Auth::id(),
+            ]));
             if (!$team) {
                 return response()->json([
                     'message' => 'Team creation Failed',
@@ -120,5 +127,39 @@ class TeamController extends Controller
         }
     }
 
+    public function addTeamMembers(Request $request,$id): JsonResponse
+    {
+        try {
+            $validatedData = $request->validate([
+                'user_ids' => 'required|array',
+                'user_ids.*' => 'exists:users,id'
+            ]);
+            $team = Team::find($id);
+
+            $members = json_encode([...$validatedData, 'team_lead'=>$team->user_id]);
+
+            $team->update(['team_members'=>$members]);
+            $team->save();
+            return response()->json([
+                'message' => 'Users added to team successfully',
+                'team_id' => $team->id,
+                'errors' => $validatedData,
+
+                'status' => 200
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+                'status' => 422
+            ], 422);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while adding users to the team',
+                'error' => $e->getMessage(),
+                'status' => 500
+            ], 500);
+        }
+    }
 
 }

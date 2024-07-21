@@ -22,7 +22,7 @@ class TaskCreated
      */
     public function __construct(public  Task $task)
     {
-
+        $this->task->load('user');
     }
 
     /**
