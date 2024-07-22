@@ -107,17 +107,32 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { UserIcon, MailIcon, LockIcon } from 'lucide-vue-next'
+import { useAuthStore, type User } from '@/stores/auth'
 
 const name = ref<string>('')
 const email = ref<string>('')
 const password = ref<string>('')
 
-const handleSubmit = (): void => {
+const store = useAuthStore()
+
+const handleSubmit =async (values): void => {
   // Handle signup logic here
-  console.log('Signup attempt', {
+  const credentials = {
     name: name.value,
     email: email.value,
     password: password.value
-  })
+  }
+  values = credentials as User
+
+  await store.register(values)
+  const error = Object.values(store.errors)
+
+  if(error.length === 0){
+    store.errors={}
+  }else{
+    alert(error as string)
+  }
+
+
 }
 </script>

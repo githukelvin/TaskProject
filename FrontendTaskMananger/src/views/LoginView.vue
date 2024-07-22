@@ -69,17 +69,31 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { MailIcon, LockIcon } from 'lucide-vue-next'
-
+import { useAuthStore, type User } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
     const email = ref<string>('')
     const password = ref<string>('')
-
-    const handleSubmit = (): void => {
+    const store = useAuthStore()
+const router = useRouter()
+    const handleSubmit = async (values): void => {
       // Handle login logic here
-      console.log('Login attempt', {
+      const credentials =  {
         email: email.value,
         password: password.value,
-      })
+      }
+      values= credentials as User
+      await store.login(values)
+      const error = Object.values(store.errors)
+
+      if(error.length === 0){
+        store.errors={}
+        router.push({name:'user'})
+
+      }else{
+        alert(error as string)
+      }
+      console.log('Login attempt',)
     }
 
 
