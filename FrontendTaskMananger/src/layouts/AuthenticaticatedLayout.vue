@@ -8,7 +8,7 @@
             <div class="flex h-full min-h-[700px] flex-col justify-between bg-[#FFFFFF] p-4">
               <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-2">
-                  <RouterLink to="">
+                  <RouterLink to="/user">
                     <div class="flex items-center gap-3 px-3 py-2 ">
                       <div class="text-black" data-icon="House" data-size="24px" data-weight="fill">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -22,7 +22,7 @@
 
                   </RouterLink>
 
-                  <RouterLink to="user/tasks">
+                  <RouterLink to="/tasks">
                     <div class="flex items-center gap-3 px-3 py-2">
                       <div class="text-black" data-icon="List" data-size="24px" data-weight="regular">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -36,7 +36,7 @@
 
                   </RouterLink>
 
-                  <RouterLink to="user/create-task">
+                  <RouterLink to="/create-task">
                     <div class="flex items-center gap-3 px-3 py-2">
                       <div class="text-black" data-icon="Users" data-size="24px" data-weight="regular">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -50,7 +50,7 @@
 
                   </RouterLink>
 
-                  <RouterLink to="user/team">
+                  <RouterLink to="/team">
                     <div class="flex items-center gap-3 px-3 py-2">
                       <div class="text-black" data-icon="ChartBar" data-size="24px" data-weight="regular">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -64,7 +64,7 @@
 
                   </RouterLink>
 
-                  <RouterLink to="user/all">
+                  <RouterLink to="/all">
                     <div class="flex items-center gap-3 px-3 py-2">
                       <div class="text-black" data-icon="Gear" data-size="24px" data-weight="regular">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">

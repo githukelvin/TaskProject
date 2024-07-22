@@ -46,6 +46,8 @@ class ApiService {
     return ApiService.vueInstance.axios.post(`${resource}/${slug}`,params)
   }
 
+
+
   /**
    * @description Send the PUT HTTP request
    * @returns Promise<AxiosResponse>

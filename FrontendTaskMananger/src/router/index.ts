@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   linkActiveClass: ' rounded-xl bg-[#EEEEEE]',
-  linkExactActiveClass: ' rounded-xl bg-[#EEEEEE]',
+  // linkExactActiveClass: ' rounded-xl bg-[#EEEEEE]',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -50,11 +50,36 @@ const router = createRouter({
           path: '/user',
           name: 'user',
           component:()=>import('@/views/user/index.vue'),
-          meta:{
-            middleware: 'auth'
-          }
+
+        },
+        {
+          path: '/tasks',
+          name: 'tasks',
+          // component:()=>import('@/views/tasks/index.vue'),
+          children: [
+            {
+              path:'/tasks',
+              name: 'tasks',
+              component:()=>import('@/views/tasks/index.vue'),
+
+            },
+            {
+              path: '/tasks/:id',
+              name: 'tasks.id',
+              component: () => import('@/views/tasks/SingleTaskView.vue')
+            },
+            {
+              path: '/tasks/:id/edit',
+              name: 'tasks.id.edit',
+              component: () => import('@/views/tasks/EditTaskView.vue')
+            }
+          ]
+
         }
-      ]
+      ],
+      meta:{
+        middleware: 'auth'
+      }
     }
   ]
 })

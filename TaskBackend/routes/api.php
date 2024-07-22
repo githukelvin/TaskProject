@@ -36,7 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/createtask', [TaskController::class,'store']);
     Route::get('/tasks', [TaskController::class,'index']);
     Route::get('/teams', [TeamController::class,'index']);
-    Route::put('/update-status/{id}', [TaskController::class,'update']);
+    Route::post('/update-status/{id}', [TaskController::class,'update']);
     Route::put('/approve/{id}', [TaskController::class,'edit']);
     Route::post('/addMembers/{id}',[TeamController::class,'addTeamMembers']);
     Route::post('/create_team',[TeamController::class,'store']);

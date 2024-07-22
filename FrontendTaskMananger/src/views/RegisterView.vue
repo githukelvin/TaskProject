@@ -94,9 +94,9 @@
           </div>
 
           <div class="mt-6">
-            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+            <router-link to="/login" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
               Sign in
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -108,12 +108,14 @@
 import { ref } from 'vue'
 import { UserIcon, MailIcon, LockIcon } from 'lucide-vue-next'
 import { useAuthStore, type User } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
 const name = ref<string>('')
 const email = ref<string>('')
 const password = ref<string>('')
 
 const store = useAuthStore()
+const router = useRouter()
 
 const handleSubmit =async (values): void => {
   // Handle signup logic here
@@ -129,6 +131,8 @@ const handleSubmit =async (values): void => {
 
   if(error.length === 0){
     store.errors={}
+    router.push({name:'login'})
+
   }else{
     alert(error as string)
   }
