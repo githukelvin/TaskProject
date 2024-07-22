@@ -5,6 +5,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -31,7 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->middleware(['throttle:6,1'])
         ->name('verification.send');
 });
-Route::middleware(['auth:sanctum','verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/createtask', [TaskController::class,'store']);
     Route::get('/tasks', [TaskController::class,'index']);
     Route::get('/teams', [TeamController::class,'index']);
@@ -41,4 +42,20 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
     Route::post('/create_team',[TeamController::class,'store']);
     Route::post('/tasks/{taskId}/assign', [TaskController::class, 'assignAndNotify']);
     Route::get('/tasks/{id}',[TaskController::class,'singleTask']);
+    Route::get('/task_user',[TaskController::class,'getTaskAssigned']);
+});
+
+Route::middleware('guest')->get('/verify-token', function (Request $request) {
+    $user = Auth::guard('sanctum')->user();
+
+    if ($user) {
+        // User is authenticated, return data with token information
+        return response()->json([
+            'message' => 'Token verified',
+            'token' => $request->bearerToken(), // Include the token itself
+        ]);
+    } else {
+        // Handle unauthorized access (e.g., return 401 response)
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
 });

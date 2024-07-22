@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\CustomEmailProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -10,7 +11,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
 class EmailVerificationController extends Controller
+
+
 {
+    public $mailTo;
+
+    public function __construct(CustomEmailProvider $customEmailProvider)
+    {
+        $this->mailTo= $customEmailProvider
+    }
     public function verify(EmailVerificationRequest $request): JsonResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
@@ -31,7 +40,6 @@ class EmailVerificationController extends Controller
         }
 
         $request->user()->sendEmailVerificationNotification();
-
         return response()->json(['message' => 'Verification link sent']);
     }
 

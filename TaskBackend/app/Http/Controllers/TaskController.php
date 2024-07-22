@@ -21,12 +21,24 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Task $task)
     {
+        Gate::authorize('create',$task);
         $tasks = Task::all();
 
         return response()->json([
-            'tasks' => $tasks,
+            'tasks' => $tasks->load('team','assigned'),
+            'status' => 200
+        ]);
+    }
+
+    public function getTaskAssigned(Task $task)
+    {
+        $tasks = Task::where('assignee_id',Auth::id())
+            ->get();
+
+        return response()->json([
+            'tasks' => $tasks->load('assigned'),
             'status' => 200
         ]);
     }
