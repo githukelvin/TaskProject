@@ -77,7 +77,7 @@ export const useTaskStore = defineStore('tasks',()=>{
       })
   }
   function updateTaskStatus(id:number,status:any){
-    return axios.post(`tasks${id}`, { data:status })
+    return ApiService.post(`tasks/${id}`, status )
       .then(({data})=>{
         task.value = data.task;
         console.log(data)
